@@ -1,0 +1,31 @@
+-- Create the database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS finix_edu;
+USE finix_edu;
+
+-- Table for Student Results
+CREATE TABLE IF NOT EXISTS results (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cert_number VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    course VARCHAR(255) NOT NULL,
+    fy_marks VARCHAR(50) DEFAULT '-',
+    sy_marks VARCHAR(50) DEFAULT '-',
+    ty_marks VARCHAR(50) DEFAULT '-',
+    result VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table for Blogs
+CREATE TABLE IF NOT EXISTS blogs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    excerpt TEXT,
+    content LONGTEXT NOT NULL,
+    author_name VARCHAR(255) NOT NULL DEFAULT 'Finix CNC Training',
+    published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
