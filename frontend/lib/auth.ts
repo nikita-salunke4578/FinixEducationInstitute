@@ -1,12 +1,15 @@
 import { SignJWT, jwtVerify } from "jose"
 import { cookies } from "next/headers"
 const COOKIE_NAME = "auth_token"
-const SECRET = new TextEncoder().encode(process.env.AUTH_SECRET || "default-secret-change-me-in-production")
 
 export interface AuthUser {
   id: string
   email: string
   name: string
+}
+
+function getSecret() {
+  return new TextEncoder().encode(process.env.AUTH_SECRET || "default-secret-change-me-in-production");
 }
 
 /**
@@ -17,7 +20,7 @@ export async function signToken(user: AuthUser): Promise<string> {
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
-    .sign(SECRET)
+    .sign(getSecret())
 }
 
 /**
@@ -25,9 +28,10 @@ export async function signToken(user: AuthUser): Promise<string> {
  */
 export async function verifyToken(token: string): Promise<AuthUser | null> {
   try {
-    const { payload } = await jwtVerify(token, SECRET)
+    const { payload } = await jwtVerify(token, getSecret())
     return payload as unknown as AuthUser
-  } catch {
+  } catch (error) {
+    console.error("=== JWT VERIFY ERROR ===", error)
     return null
   }
 }
@@ -38,8 +42,13 @@ export async function verifyToken(token: string): Promise<AuthUser | null> {
 export async function getSession(): Promise<AuthUser | null> {
   const cookieStore = await cookies()
   const token = cookieStore.get(COOKIE_NAME)?.value
+  console.log("=== GET SESSION DEBUG ===")
+  console.log("Token found:", !!token)
   if (!token) return null
-  return verifyToken(token)
+  
+  const verified = await verifyToken(token)
+  console.log("Verified payload:", verified)
+  return verified
 }
 
 

@@ -16,7 +16,8 @@ export default async function AdminDashboardPage() {
   let allPosts: any[] = []
   
   try {
-    const res = await fetch("http://localhost:5000/api/blogs?admin=true", { cache: "no-store" })
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+    const res = await fetch(`${backendUrl}/api/blogs?admin=true`, { cache: "no-store" })
     if (res.ok) {
       allPosts = await res.json()
     }
@@ -73,7 +74,7 @@ export default async function AdminDashboardPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>Blog Posts</CardTitle>
-                    <CardDescription>View your hardcoded blog content</CardDescription>
+                    <CardDescription>View your published blog content from the database</CardDescription>
                   </div>
                 </div>
               </CardHeader>

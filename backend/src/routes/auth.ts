@@ -3,8 +3,6 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-const JWT_SECRET = process.env.AUTH_SECRET || "default-secret-change-me-in-production";
-
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
@@ -25,6 +23,7 @@ router.post("/login", (req, res) => {
     email: adminEmail,
   };
 
+  const JWT_SECRET = process.env.AUTH_SECRET || "default-secret-change-me-in-production";
   const token = jwt.sign(admin, JWT_SECRET, { expiresIn: "7d" });
 
   res.cookie("auth_token", token, {

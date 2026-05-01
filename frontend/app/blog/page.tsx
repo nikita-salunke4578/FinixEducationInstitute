@@ -10,7 +10,8 @@ export default async function BlogPage() {
   let blogPosts: any[] = []
   
   try {
-    const res = await fetch("http://localhost:5000/api/blogs", { next: { revalidate: 60 } })
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+    const res = await fetch(`${backendUrl}/api/blogs`, { next: { revalidate: 60 } })
     if (res.ok) {
       blogPosts = await res.json()
     }
