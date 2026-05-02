@@ -10,7 +10,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
   try {
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
-    const res = await fetch(`${backendUrl}/api/blogs?slug=${slug}`, { next: { revalidate: 60 } })
+    const res = await fetch(`${backendUrl}/api/blogs?slug=${slug}`, { next: { revalidate: 3600 } })
     if (res.ok) {
       post = await res.json()
     }

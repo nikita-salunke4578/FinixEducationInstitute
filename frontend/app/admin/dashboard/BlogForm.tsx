@@ -39,7 +39,9 @@ export function BlogForm({ onSuccess }: { onSuccess?: () => void }) {
       if (res.ok) {
         setMessage("Success: Blog saved!")
         ;(e.target as HTMLFormElement).reset()
-        onSuccess?.()   // ← instantly refresh the blog list
+        // Bust public blog page cache immediately
+        await fetch("/api/revalidate", { method: "POST" })
+        onSuccess?.()
       } else {
         setMessage(`Error: ${resultData.error}`)
       }

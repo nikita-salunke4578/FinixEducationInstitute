@@ -16,7 +16,9 @@ export function DeleteBlogButton({ id, onSuccess }: { id: number | string; onSuc
         method: "DELETE",
       })
       if (res.ok) {
-        onSuccess?.()   // ← instantly refresh the blog list
+        // Bust public blog page cache immediately
+        await fetch("/api/revalidate", { method: "POST" })
+        onSuccess?.()
       } else {
         alert("Failed to delete blog.")
       }

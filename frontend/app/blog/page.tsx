@@ -4,14 +4,13 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 
-export const dynamic = "force-dynamic"
 
 export default async function BlogPage() {
   let blogPosts: any[] = []
   
   try {
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
-    const res = await fetch(`${backendUrl}/api/blogs`, { next: { revalidate: 60 } })
+    const res = await fetch(`${backendUrl}/api/blogs`, { next: { revalidate: 3600 } })
     if (res.ok) {
       blogPosts = await res.json()
     }
