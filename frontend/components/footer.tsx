@@ -53,7 +53,7 @@ export function Footer() {
                   href="mailto:finixeducation@gmail.com"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  finixeducation@gmail.com
+                  finixeducationinstitute86@gmail.com
                 </a>
               </div>
             </div>

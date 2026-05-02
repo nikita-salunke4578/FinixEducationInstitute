@@ -3,8 +3,8 @@ import { getSession } from "@/lib/auth"
 import { LogoutButton } from "./LogoutButton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ResultForm } from "./ResultForm"
+import { ResultsTab } from "./ResultsTab"
 import { BlogsTab } from "./BlogsTab"
-
 
 export const dynamic = "force-dynamic"
 
@@ -33,16 +33,19 @@ export default async function AdminDashboardPage() {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-
-
-        <Tabs defaultValue="results" className="space-y-4">
+        <Tabs defaultValue="add-result" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="results">Student Results</TabsTrigger>
+            <TabsTrigger value="add-result">Add Result</TabsTrigger>
+            <TabsTrigger value="manage-results">Manage Results</TabsTrigger>
             <TabsTrigger value="blogs">Blog Posts</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="results">
+          <TabsContent value="add-result">
             <ResultForm />
+          </TabsContent>
+
+          <TabsContent value="manage-results">
+            <ResultsTab />
           </TabsContent>
 
           <TabsContent value="blogs">

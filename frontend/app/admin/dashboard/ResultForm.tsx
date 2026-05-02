@@ -5,25 +5,84 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-export function ResultForm() {
+const SEMESTERS = [
+  "First Semester",
+  "Second Semester",
+  "Third Semester",
+  "Fourth Semester",
+  "Fifth Semester",
+  "Sixth Semester",
+]
+
+const CLASS_GRADES = [
+  "Distinction",
+  "First Class with Distinction",
+  "First Class",
+  "Higher Second Class",
+  "Second Class",
+  "Pass Class",
+]
+
+const COURSES = [
+  "Diploma in Mechanical Engineering",
+  "Diploma in Civil Engineering",
+  "Diploma in Electrical Engineering",
+  "Diploma in Computer Engineering",
+  "Diploma in Electronics & Telecommunication",
+  "Diploma in Automobile Engineering",
+  "Certificate in CNC Programming",
+]
+
+const RESULTS = [
+  "Pass",
+  "Fail",
+  "ATKT",
+]
+
+export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
+
+  // Form State
+  const [enrollmentNumber, setEnrollmentNumber] = useState("")
+  const [name, setName] = useState("")
+  const [course, setCourse] = useState("")
+  const [year, setYear] = useState("")
+  const [semester, setSemester] = useState("")
+  const [totalMax, setTotalMax] = useState("")
+  const [totalObt, setTotalObt] = useState("")
+  const [resultStatus, setResultStatus] = useState("")
+  const [classGrade, setClassGrade] = useState("")
+
+  const percentage = 
+    totalMax && totalObt && Number(totalMax) > 0 
+      ? ((Number(totalObt) / Number(totalMax)) * 100).toFixed(2) + "%"
+      : "—"
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setMessage("")
 
-    const formData = new FormData(e.currentTarget)
+    // Use state values directly to guarantee no FormData issues
     const data = {
-      cert_number: formData.get("cert_number"),
-      name: formData.get("name"),
-      course: formData.get("course"),
-      fy_marks: formData.get("fy_marks") || "-",
-      sy_marks: formData.get("sy_marks") || "-",
-      ty_marks: formData.get("ty_marks") || "-",
-      result: formData.get("result"),
+      enrollment_number: enrollmentNumber.trim(),
+      name:              name.trim(),
+      course:            course.trim(),
+      year:              year.trim(),
+      semester:          semester,
+      total_max_marks:   Number(totalMax),
+      total_obtained:    Number(totalObt),
+      result:            resultStatus,
+      class_grade:       classGrade === "none" ? "" : classGrade,
+    }
+
+    if (!data.enrollment_number || !data.name || !data.course || !data.year || !data.semester || !data.result) {
+      setMessage("Error: Please fill all required fields.")
+      setLoading(false)
+      return
     }
 
     try {
@@ -35,62 +94,169 @@ export function ResultForm() {
       const resultData = await res.json()
 
       if (res.ok) {
-        setMessage("Success: Result saved!")
-        ;(e.target as HTMLFormElement).reset()
+        setMessage("✓ Result saved successfully!")
+        
+        // Reset form
+        setEnrollmentNumber("")
+        setName("")
+        setCourse("")
+        setYear("")
+        setSemester("")
+        setTotalMax("")
+        setTotalObt("")
+        setResultStatus("")
+        setClassGrade("")
+        
+        onSuccess?.()
       } else {
         setMessage(`Error: ${resultData.error}`)
       }
-    } catch (err: any) {
-      setMessage(`Error: Failed to save result`)
+    } catch {
+      setMessage("Error: Failed to save result")
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Add / Update Student Result</CardTitle>
-        <CardDescription>Enter marks for a student.</CardDescription>
+        <CardDescription>Enter semester-wise result details for a student.</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Certification Number</Label>
-              <Input name="cert_number" required placeholder="e.g. M201530689" />
+              <Label>Enrollment Number <span className="text-red-500">*</span></Label>
+              <Input 
+                value={enrollmentNumber} 
+                onChange={(e) => setEnrollmentNumber(e.target.value)} 
+                required 
+                placeholder="e.g. 0201400F456303" 
+              />
             </div>
             <div className="space-y-2">
-              <Label>Student Name</Label>
-              <Input name="name" required placeholder="Full Name" />
+              <Label>Student Name <span className="text-red-500">*</span></Label>
+              <Input 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+                required 
+                placeholder="Surname FirstName MiddleName" 
+              />
             </div>
           </div>
+
           <div className="space-y-2">
-            <Label>Course</Label>
-            <Input name="course" required placeholder="Diploma in Mechanical Engineering" />
+            <Label>Course <span className="text-red-500">*</span></Label>
+            <Select value={course} onValueChange={setCourse} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Select Course" />
+              </SelectTrigger>
+              <SelectContent>
+                {COURSES.map(c => (
+                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Examination Year <span className="text-red-500">*</span></Label>
+              <Input 
+                value={year} 
+                onChange={(e) => setYear(e.target.value)} 
+                required 
+                placeholder="e.g. 2021-22" 
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Semester <span className="text-red-500">*</span></Label>
+              <Select value={semester} onValueChange={setSemester} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select semester" />
+                </SelectTrigger>
+                <SelectContent>
+                  {SEMESTERS.map(s => (
+                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label>FY Marks</Label>
-              <Input name="fy_marks" placeholder="1147" />
+              <Label>Total Max Marks <span className="text-red-500">*</span></Label>
+              <Input 
+                type="number" 
+                required 
+                placeholder="e.g. 650" 
+                min={0} 
+                value={totalMax}
+                onChange={(e) => setTotalMax(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
-              <Label>SY Marks</Label>
-              <Input name="sy_marks" placeholder="1180" />
+              <Label>Total Marks Obtained <span className="text-red-500">*</span></Label>
+              <Input 
+                type="number" 
+                required 
+                placeholder="e.g. 365" 
+                min={0} 
+                value={totalObt}
+                onChange={(e) => setTotalObt(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
-              <Label>TY Marks</Label>
-              <Input name="ty_marks" placeholder="1191" />
+              <Label>Percentage (Calculated)</Label>
+              <div className="h-10 px-3 py-2 rounded-md border border-input bg-muted text-sm flex items-center font-semibold text-primary">
+                {percentage}
+              </div>
             </div>
           </div>
-          <div className="space-y-2">
-            <Label>Final Result</Label>
-            <Input name="result" required placeholder="Pass / Fail / Distinction" />
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Result <span className="text-red-500">*</span></Label>
+              <Select value={resultStatus} onValueChange={setResultStatus} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Result" />
+                </SelectTrigger>
+                <SelectContent>
+                  {RESULTS.map(r => (
+                    <SelectItem key={r} value={r}>{r}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Class / Grade</Label>
+              <Select value={classGrade} onValueChange={setClassGrade}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select class (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">— None —</SelectItem>
+                  {CLASS_GRADES.map(g => (
+                    <SelectItem key={g} value={g}>{g}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          <Button type="submit" disabled={loading}>
+
+          <Button type="submit" disabled={loading} className="w-full">
             {loading ? "Saving..." : "Save Result"}
           </Button>
-          {message && <p className="text-sm font-medium text-blue-600">{message}</p>}
+
+          {message && (
+            <p className={`text-sm font-medium ${message.startsWith("✓") ? "text-green-600" : "text-red-600"}`}>
+              {message}
+            </p>
+          )}
         </form>
       </CardContent>
     </Card>

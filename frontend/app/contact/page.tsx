@@ -97,11 +97,11 @@ export default function ContactPage() {
                       <div>
                         <CardTitle className="text-[17px] mb-2">Email</CardTitle>
                         <p className="text-[15px] text-muted-foreground">
-                          <a href="mailto:finixeducation@gmail.com" className="hover:text-primary transition-colors">
-                            finixeducation@gmail.com
+                          <a href="mailto:finixeducationinstitute86@gmail.com" className="hover:text-primary transition-colors">
+                            finixeducationinstitute86@gmail.com
                           </a>
                           <br />
-                          <span className="text-xs">Visit: www.finixeducation.com</span>
+                          <span className="text-xs">Visit: www.finixeducationinstitute.com</span>
                         </p>
                       </div>
                     </div>
@@ -117,7 +117,7 @@ export default function ContactPage() {
                       <div>
                         <CardTitle className="text-[17px] mb-2">Course Timings</CardTitle>
                         <p className="text-[15px] text-muted-foreground leading-relaxed">
-                          Full Time: 9:30 AM - 4:30 PM
+                          Full Time: 9:30 AM - 6:30 PM
                           <br />
                           Part Time: 3 hours/day (Flexible timing)
                           <br />

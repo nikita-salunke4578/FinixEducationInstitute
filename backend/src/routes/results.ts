@@ -3,13 +3,16 @@ import { query } from "../config/db";
 
 const router = express.Router();
 
+// ─── GET ──────────────────────────────────────────────────────────────────────
 router.get("/", async (req, res) => {
-  const { certNumber, name } = req.query;
+  const { enrollment_number, name, admin } = req.query;
 
-  // Let admin fetch all results without certNumber
-  if (!certNumber && req.query.admin === 'true') {
+  // Admin: return all results
+  if (admin === "true" && !enrollment_number) {
     try {
-      const results = await query("SELECT * FROM results ORDER BY created_at DESC");
+      const results = await query(
+        "SELECT * FROM results ORDER BY created_at DESC"
+      );
       return res.json(results);
     } catch (error) {
       console.error("Error fetching results:", error);
@@ -17,51 +20,77 @@ router.get("/", async (req, res) => {
     }
   }
 
-  if (!certNumber) {
-    return res.status(400).json({ error: "Certification number is required" });
+  // Public: require both enrollment_number AND name
+  if (!enrollment_number || !name) {
+    return res
+      .status(400)
+      .json({ error: "Both enrollment number and name are required" });
   }
 
   try {
-    let sql = "SELECT * FROM results WHERE cert_number = ?";
-    let values: any[] = [certNumber as string];
-
-    if (name) {
-      sql += " AND name LIKE ?";
-      values.push(`%${name}%`);
-    }
-
-    const results: any = await query(sql, values);
+    // Search case-insensitively; a student may have multiple semester rows
+    const results: any = await query(
+      `SELECT * FROM results
+       WHERE enrollment_number = ? AND name LIKE ?
+       ORDER BY year ASC, semester ASC`,
+      [enrollment_number as string, `%${(name as string).trim()}%`]
+    );
 
     if (results.length === 0) {
       return res.status(404).json({ error: "Result not found" });
     }
 
-    return res.json(results[0]);
+    return res.json(results); // return array (all semesters for that student)
   } catch (error) {
     console.error("Error fetching result:", error);
     return res.status(500).json({ error: "Failed to fetch result" });
   }
 });
 
+// ─── POST (create / upsert) ───────────────────────────────────────────────────
 router.post("/", async (req, res) => {
   try {
-    const { cert_number, name, course, fy_marks, sy_marks, ty_marks, result } = req.body;
+    const {
+      enrollment_number,
+      name,
+      course,
+      year,
+      semester,
+      total_max_marks,
+      total_obtained,
+      result,
+      class_grade,
+    } = req.body;
 
-    if (!cert_number || !name || !course || !result) {
+    if (!enrollment_number || !name || !course || !year || !semester || !result) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
     const sql = `
-      INSERT INTO results (cert_number, name, course, fy_marks, sy_marks, ty_marks, result)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO results
+        (enrollment_number, name, course, year, semester, total_max_marks, total_obtained, result, class_grade)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON DUPLICATE KEY UPDATE
-      name = VALUES(name), course = VALUES(course), fy_marks = VALUES(fy_marks), 
-      sy_marks = VALUES(sy_marks), ty_marks = VALUES(ty_marks), result = VALUES(result)
+        name            = VALUES(name),
+        total_max_marks = VALUES(total_max_marks),
+        total_obtained  = VALUES(total_obtained),
+        result          = VALUES(result),
+        class_grade     = VALUES(class_grade)
     `;
-    const values = [cert_number, name, course, fy_marks || '-', sy_marks || '-', ty_marks || '-', result];
-    
-    await query(sql, values);
 
+    const values = [
+      enrollment_number,
+      name,
+      course,
+      year,
+      semester,
+      parseInt(total_max_marks) || 0,
+      parseInt(total_obtained) || 0,
+      result,
+      class_grade || "",
+    ];
+
+    await query(sql, values);
     return res.status(201).json({ message: "Result saved successfully" });
   } catch (error) {
     console.error("Error saving result:", error);
@@ -69,6 +98,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// ─── DELETE ───────────────────────────────────────────────────────────────────
 router.delete("/", async (req, res) => {
   const { id } = req.query;
 
@@ -77,7 +107,9 @@ router.delete("/", async (req, res) => {
   }
 
   try {
-    const result: any = await query("DELETE FROM results WHERE id = ?", [id as string]);
+    const result: any = await query("DELETE FROM results WHERE id = ?", [
+      id as string,
+    ]);
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Result not found" });
     }
