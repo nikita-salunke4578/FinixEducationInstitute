@@ -40,9 +40,15 @@ export default function ContactForm() {
         body: JSON.stringify({ firstName, lastName, email, phone, course, message }),
       })
 
-      const data = await res.json()
+      // Safely parse — server may return HTML if backend is waking up
+      const text = await res.text()
+      let data: any = {}
+      try { data = JSON.parse(text) } catch { /* not JSON */ }
 
       if (!res.ok) {
+        if (!text.includes("{")) {
+          throw new Error("Server is starting up, please try again in 30 seconds.")
+        }
         throw new Error(data.error || "Failed to submit message")
       }
 

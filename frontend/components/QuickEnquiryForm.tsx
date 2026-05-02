@@ -36,9 +36,14 @@ export default function QuickEnquiryForm() {
         body: JSON.stringify({ name, phone, course }),
       })
 
-      const data = await res.json()
+      const text = await res.text()
+      let data: any = {}
+      try { data = JSON.parse(text) } catch { /* not JSON */ }
 
       if (!res.ok) {
+        if (!text.includes("{")) {
+          throw new Error("Server is starting up, please try again in 30 seconds.")
+        }
         throw new Error(data.error || "Failed to submit enquiry")
       }
 
