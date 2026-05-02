@@ -11,7 +11,6 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Required fields are missing" });
     }
 
-    // Send email notification to admin
     await sendEmail(
       `New Contact Message: ${firstName} ${lastName}`,
       `<h3>New Contact Message Received</h3>

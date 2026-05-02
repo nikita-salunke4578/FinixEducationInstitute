@@ -11,7 +11,6 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Name, phone, and course are required" });
     }
 
-    // Send email notification to admin
     await sendEmail(
       `New Quick Enquiry: ${name}`,
       `<h3>New Enquiry Received</h3>
