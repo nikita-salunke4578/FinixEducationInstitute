@@ -18,8 +18,8 @@ export function BlogsTab() {
 
   const fetchPosts = useCallback(async () => {
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_API_URL
-      const res = await fetch(`${backendUrl}/api/blogs?admin=true`, { cache: "no-store" })
+      // Use relative URL so it goes through the Next.js proxy rewrite (avoids CORS in the browser)
+      const res = await fetch(`/api/blogs?admin=true`, { cache: "no-store" })
       if (res.ok) {
         const data = await res.json()
         setPosts(data)
@@ -36,7 +36,20 @@ export function BlogsTab() {
   }, [fetchPosts])
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="space-y-6">
+      {/* Stat card */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardDescription>Total Blogs</CardDescription>
+            <CardTitle className="text-3xl">
+              {loading ? "—" : posts.length}
+            </CardTitle>
+          </CardHeader>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* BlogForm calls onSuccess after a successful save */}
       <BlogForm onSuccess={fetchPosts} />
 
@@ -87,6 +100,7 @@ export function BlogsTab() {
           )}
         </CardContent>
       </Card>
+      </div>
     </div>
   )
 }
