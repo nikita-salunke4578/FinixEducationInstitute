@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Award, Users, Briefcase, Settings, TrendingUp, Youtube, BookOpen } from "lucide-react"
-import ContactForm from "@/components/ContactForm"
+import QuickEnquiryForm from "@/components/QuickEnquiryForm"
 
 export default function HomePage() {
   return (
@@ -366,7 +366,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <ContactForm />
+            <QuickEnquiryForm />
           </div>
         </div>
       </section>

@@ -1,62 +1,58 @@
-import nodemailer from "nodemailer";
+import { Resend } from 'resend';
 
-// Create transporter once (reused across all requests — much faster)
-let transporter: nodemailer.Transporter | null = null;
+// Create Resend instance once
+let resendInstance: Resend | null = null;
 
-function getTransporter() {
-  if (transporter) return transporter;
+function getResend() {
+  if (resendInstance) return resendInstance;
 
-  const { EMAIL_USER, EMAIL_APP_PASSWORD } = process.env;
-  if (!EMAIL_USER || !EMAIL_APP_PASSWORD) {
-    throw new Error(
-      "Email configuration missing. Set EMAIL_USER, EMAIL_APP_PASSWORD, and ADMIN_EMAIL in your environment variables."
-    );
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error("RESEND_API_KEY is missing in your environment variables.");
   }
 
-  transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: EMAIL_USER,
-      pass: EMAIL_APP_PASSWORD,
-    },
-  });
-
-  return transporter;
+  resendInstance = new Resend(apiKey);
+  return resendInstance;
 }
 
 /**
- * Send email and wait for it to complete (use when you need confirmation).
+ * Send email using Resend API (Production Ready)
+ * Extremely fast and reliable.
  */
 export async function sendEmail(subject: string, htmlMessage: string) {
-  const { EMAIL_USER, ADMIN_EMAIL } = process.env;
+  const adminEmail = process.env.ADMIN_EMAIL;
 
-  if (!EMAIL_USER || !ADMIN_EMAIL) {
-    throw new Error(
-      "Email configuration missing. Set EMAIL_USER, EMAIL_APP_PASSWORD, and ADMIN_EMAIL in your environment variables."
-    );
+  if (!adminEmail) {
+    throw new Error("ADMIN_EMAIL is missing in your environment variables.");
   }
 
   try {
-    const t = getTransporter();
-    const info = await t.sendMail({
-      from: `"Finix Education Institute" <${EMAIL_USER}>`,
-      to: ADMIN_EMAIL,
-      subject,
+    const resend = getResend();
+    
+    // Resend's free tier allows sending from 'onboarding@resend.dev'
+    // To send from your own domain, you'd verify it in Resend dashboard.
+    const { data, error } = await resend.emails.send({
+      from: 'Finix Institute <onboarding@resend.dev>',
+      to: adminEmail,
+      subject: subject,
       html: htmlMessage,
     });
-    console.log("Email sent: %s", info.messageId);
+
+    if (error) {
+      console.error("Resend Error:", error);
+      return false;
+    }
+
+    console.log("Email sent successfully via Resend:", data?.id);
     return true;
   } catch (error) {
-    console.error("Failed to send email:", error);
+    console.error("Failed to send email via Resend:", error);
     return false;
   }
 }
 
 /**
  * Fire-and-forget: sends email in background without blocking the response.
- * Use this for contact/enquiry forms so the user gets an instant response.
  */
 export function sendEmailAsync(subject: string, htmlMessage: string) {
   sendEmail(subject, htmlMessage).catch((err) => {
