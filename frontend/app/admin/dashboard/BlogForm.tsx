@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-export function BlogForm() {
+export function BlogForm({ onSuccess }: { onSuccess?: () => void }) {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
 
@@ -39,6 +39,7 @@ export function BlogForm() {
       if (res.ok) {
         setMessage("Success: Blog saved!")
         ;(e.target as HTMLFormElement).reset()
+        onSuccess?.()   // ← instantly refresh the blog list
       } else {
         setMessage(`Error: ${resultData.error}`)
       }

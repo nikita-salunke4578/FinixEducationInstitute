@@ -3,11 +3,9 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
-import { useRouter } from "next/navigation"
 
-export function DeleteBlogButton({ id }: { id: number | string }) {
+export function DeleteBlogButton({ id, onSuccess }: { id: number | string; onSuccess?: () => void }) {
   const [isDeleting, setIsDeleting] = useState(false)
-  const router = useRouter()
 
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this blog?")) return
@@ -18,7 +16,7 @@ export function DeleteBlogButton({ id }: { id: number | string }) {
         method: "DELETE",
       })
       if (res.ok) {
-        router.refresh()
+        onSuccess?.()   // ← instantly refresh the blog list
       } else {
         alert("Failed to delete blog.")
       }
