@@ -30,15 +30,18 @@ export async function GET(request: Request) {
   }
 
   try {
+    // We search primarily by enrollment_number to get ALL semesters.
+    // We also check the name to ensure it's the right student.
     const results: any = await query(
       `SELECT * FROM results
-       WHERE enrollment_number = ? AND name LIKE ?
+       WHERE enrollment_number = ? 
+       AND LOWER(name) LIKE LOWER(?)
        ORDER BY year ASC, semester ASC`,
       [enrollment_number, `%${name.trim()}%`]
     );
 
-    if (results.length === 0) {
-      return NextResponse.json({ error: "Result not found" }, { status: 404 });
+    if (!results || results.length === 0) {
+      return NextResponse.json({ error: "No results found for this enrollment number and name" }, { status: 404 });
     }
 
     return NextResponse.json(results);
