@@ -107,13 +107,13 @@ export default function ResultPage() {
               <div>
                 <Input
                   className="max-w-sm border-gray-300 rounded-sm focus-visible:ring-0 focus-visible:border-gray-400"
-                  placeholder="e.g.Salunke Ganesh Vishwambhar"
+                  placeholder="e.g. Ganesh Vishwambhar Salunke"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  Enter full name in the order: Surname FirstName MiddleName
+                  Enter full name in the order: FirstName MiddleName Surname
                 </p>
               </div>
 
