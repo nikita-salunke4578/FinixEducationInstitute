@@ -30,18 +30,28 @@ export async function GET(request: Request) {
   }
 
   try {
-    // We search primarily by enrollment_number to get ALL semesters.
-    // We also check the name to ensure it's the right student.
+    // Split the search name into individual words (e.g., "Darekar Rohit" -> ["Darekar", "Rohit"])
+    const nameWords = name.trim().split(/\s+/);
+    
+    // Create a query that checks if EACH word exists in the name
+    let nameCondition = "";
+    const nameParams: string[] = [];
+    
+    nameWords.forEach((word, index) => {
+      nameCondition += ` AND LOWER(name) LIKE LOWER(?)`;
+      nameParams.push(`%${word}%`);
+    });
+
     const results: any = await query(
       `SELECT * FROM results
        WHERE enrollment_number = ? 
-       AND LOWER(name) LIKE LOWER(?)
+       ${nameCondition}
        ORDER BY year ASC, semester ASC`,
-      [enrollment_number, `%${name.trim()}%`]
+      [enrollment_number, ...nameParams]
     );
 
     if (!results || results.length === 0) {
-      return NextResponse.json({ error: "No results found for this enrollment number and name" }, { status: 404 });
+      return NextResponse.json({ error: "No results found. Try checking the Enrollment Number or spelling." }, { status: 404 });
     }
 
     return NextResponse.json(results);
