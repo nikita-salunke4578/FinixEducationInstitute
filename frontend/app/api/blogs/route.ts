@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 // GET handler
 export async function GET(request: Request) {
@@ -50,6 +51,11 @@ export async function POST(request: Request) {
     ];
     
     await query(sql, values);
+    
+    // Clear the cache so the new blog shows up instantly
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
+
     return NextResponse.json({ message: "Blog saved successfully" }, { status: 201 });
   } catch (error) {
     console.error("Error saving blog:", error);
@@ -71,6 +77,10 @@ export async function DELETE(request: Request) {
     if (result.affectedRows === 0) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
+
+    // Clear the cache so the deleted blog disappears instantly
+    revalidatePath("/blog");
+
     return NextResponse.json({ message: "Blog deleted successfully" });
   } catch (error) {
     console.error("Error deleting blog:", error);

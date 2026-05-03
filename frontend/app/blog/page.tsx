@@ -2,18 +2,16 @@ import Link from "next/link"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { query } from "@/lib/db"
 
-
+export const revalidate = 60; // Refresh the cache every 60 seconds
 
 export default async function BlogPage() {
   let blogPosts: any[] = []
   
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
-    const res = await fetch(`${backendUrl}/api/blogs`, { next: { revalidate: 3600 } })
-    if (res.ok) {
-      blogPosts = await res.json()
-    }
+    const results = await query("SELECT * FROM blogs ORDER BY created_at DESC");
+    blogPosts = Array.isArray(results) ? results : [];
   } catch (error) {
     console.error("Failed to fetch blogs:", error)
   }
