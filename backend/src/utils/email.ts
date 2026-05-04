@@ -28,7 +28,7 @@ export async function sendEmail(subject: string, htmlMessage: string) {
 
   try {
     const resend = getResend();
-    
+
     // Resend's free tier allows sending from 'onboarding@resend.dev'
     // To send from your own domain, you'd verify it in Resend dashboard.
     const { data, error } = await resend.emails.send({
@@ -40,14 +40,14 @@ export async function sendEmail(subject: string, htmlMessage: string) {
 
     if (error) {
       console.error("Resend Error:", error);
-      return false;
+      throw new Error(`Resend Error: ${error.message}`);
     }
 
     console.log("Email sent successfully via Resend:", data?.id);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to send email via Resend:", error);
-    return false;
+    throw new Error(error.message || "Failed to send email");
   }
 }
 

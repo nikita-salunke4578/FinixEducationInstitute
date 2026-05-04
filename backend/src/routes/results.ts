@@ -28,19 +28,29 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    // Search case-insensitively; a student may have multiple semester rows
-    const results: any = await query(
-      `SELECT * FROM results
-       WHERE enrollment_number = ? AND name LIKE ?
-       ORDER BY year ASC, semester ASC`,
-      [enrollment_number as string, `%${(name as string).trim()}%`]
+    // 1. Fetch by enrollment number first (trimmed)
+    const cleanEnrollment = (enrollment_number as string).trim();
+    const rows: any = await query(
+      "SELECT * FROM results WHERE enrollment_number = ? ORDER BY year ASC, semester ASC",
+      [cleanEnrollment]
     );
 
-    if (results.length === 0) {
+    if (rows.length === 0) {
       return res.status(404).json({ error: "Result not found" });
     }
 
-    return res.json(results); // return array (all semesters for that student)
+    // 2. Verify Name (case-insensitive and flexible order)
+    const searchTerms = (name as string).trim().toLowerCase().split(/\s+/);
+    const dbName = rows[0].name.toLowerCase();
+
+    // Check if every search term (word) exists somewhere in the database name
+    const nameMatches = searchTerms.every(term => dbName.includes(term));
+
+    if (!nameMatches) {
+      return res.status(404).json({ error: "Name does not match our records" });
+    }
+
+    return res.json(rows);
   } catch (error) {
     console.error("Error fetching result:", error);
     return res.status(500).json({ error: "Failed to fetch result" });

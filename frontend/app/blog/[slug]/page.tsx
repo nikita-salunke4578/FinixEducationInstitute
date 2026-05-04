@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { notFound } from "next/navigation"
-import { query } from "@/lib/db"
+
 
 export const revalidate = 60; // Refresh the cache every 60 seconds
 
@@ -11,9 +11,10 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
   let post: any = null
 
   try {
-    const results: any = await query("SELECT * FROM blogs WHERE slug = ?", [slug]);
-    if (Array.isArray(results) && results.length > 0) {
-      post = results[0];
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+    const res = await fetch(`${backendUrl}/api/blogs/${slug}`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      post = await res.json();
     }
   } catch (error) {
     console.error("Failed to fetch blog post:", error)

@@ -23,6 +23,20 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:slug", async (req, res) => {
+  const { slug } = req.params;
+  try {
+    const results: any = await query("SELECT * FROM blogs WHERE slug = ?", [slug]);
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+    return res.json(results[0]);
+  } catch (error) {
+    console.error("Error fetching blog by slug:", error);
+    return res.status(500).json({ error: "Failed to fetch blog" });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { title, slug, excerpt, content, author_name, published_date } = req.body;

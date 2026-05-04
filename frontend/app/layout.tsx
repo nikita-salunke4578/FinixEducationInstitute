@@ -11,9 +11,10 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Precision CNC Training Institute - Master CNC Machining & Programming",
+  title: "Finix Education Institute - Best CNC Training, Machining & Programming",
   description:
-    "Professional CNC training institute offering hands-on courses in CNC machining, programming, CAD/CAM. Learn from industry experts and launch your manufacturing career.",
+    "Finix Education Institute offers professional CNC training with hands-on courses in machining, programming, and CAD/CAM. Certified training to launch your manufacturing career.",
+  keywords: ["Finix Education Institute", "CNC Training", "CNC Programming Course", "Mechanical Engineering Diploma", "CNC Machining", "CAD CAM Training"],
   generator: "v0.app",
   icons: {
     icon: [

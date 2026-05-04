@@ -66,11 +66,12 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden border-2 border-border">
-              <img
+            <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden border-2 border-border relative">
+              <Image
                 src="/images/photo.png"
                 alt="Finix Education Institute Building - CNC+VMC Training Center"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
           </div>
@@ -155,11 +156,12 @@ export default function AboutPage() {
           </div>
 
           <div className="max-w-xl mx-auto text-center">
-            <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
-              <img
-                src="/professional-male-cnc-instructor.jpg"
+            <div className="w-60 h-65 mx-auto rounded-full overflow-hidden border-4 border-primary/20 shadow-lg relative">
+              <Image
+                src="/images/instructor.png"
                 alt="Lead Instructor"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
           </div>
@@ -186,11 +188,11 @@ export default function AboutPage() {
               "/images/certificate-3.jpg"
             ].map((imgSrc, index) => (
               <div key={index} className="relative w-full aspect-[3/4] sm:aspect-[4/3] md:aspect-[3/4]">
-                <Image 
-                  src={imgSrc} 
-                  alt={`Certificate ${index + 1}`} 
-                  fill 
-                  className="object-contain" 
+                <Image
+                  src={imgSrc}
+                  alt={`Certificate ${index + 1}`}
+                  fill
+                  className="object-contain"
                 />
               </div>
             ))}
