@@ -57,10 +57,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ─── POST (create / upsert) ───────────────────────────────────────────────────
+// ─── POST (create / update) ───────────────────────────────────────────────────
 router.post("/", async (req, res) => {
+  console.log("POST /api/results body:", req.body);
   try {
     const {
+      id,
       enrollment_number,
       name,
       course,
@@ -76,32 +78,62 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const sql = `
-      INSERT INTO results
-        (enrollment_number, name, course, year, semester, total_max_marks, total_obtained, result, class_grade)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      ON DUPLICATE KEY UPDATE
-        name            = VALUES(name),
-        total_max_marks = VALUES(total_max_marks),
-        total_obtained  = VALUES(total_obtained),
-        result          = VALUES(result),
-        class_grade     = VALUES(class_grade)
-    `;
-
-    const values = [
-      enrollment_number,
-      name,
-      course,
-      year,
-      semester,
-      parseInt(total_max_marks) || 0,
-      parseInt(total_obtained) || 0,
-      result,
-      class_grade || "",
-    ];
-
-    await query(sql, values);
-    return res.status(201).json({ message: "Result saved successfully" });
+    if (id) {
+      // UPDATE existing record
+      const sql = `
+        UPDATE results SET
+          enrollment_number = ?,
+          name = ?,
+          course = ?,
+          year = ?,
+          semester = ?,
+          total_max_marks = ?,
+          total_obtained = ?,
+          result = ?,
+          class_grade = ?
+        WHERE id = ?
+      `;
+      const values = [
+        enrollment_number,
+        name,
+        course,
+        year,
+        semester,
+        parseInt(total_max_marks) || 0,
+        parseInt(total_obtained) || 0,
+        result,
+        class_grade || "",
+        id,
+      ];
+      await query(sql, values);
+      return res.json({ message: "Result updated successfully" });
+    } else {
+      // INSERT new record (with upsert safeguard)
+      const sql = `
+        INSERT INTO results
+          (enrollment_number, name, course, year, semester, total_max_marks, total_obtained, result, class_grade)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+          name            = VALUES(name),
+          total_max_marks = VALUES(total_max_marks),
+          total_obtained  = VALUES(total_obtained),
+          result          = VALUES(result),
+          class_grade     = VALUES(class_grade)
+      `;
+      const values = [
+        enrollment_number,
+        name,
+        course,
+        year,
+        semester,
+        parseInt(total_max_marks) || 0,
+        parseInt(total_obtained) || 0,
+        result,
+        class_grade || "",
+      ];
+      await query(sql, values);
+      return res.status(201).json({ message: "Result saved successfully" });
+    }
   } catch (error) {
     console.error("Error saving result:", error);
     return res.status(500).json({ error: "Failed to save result" });
