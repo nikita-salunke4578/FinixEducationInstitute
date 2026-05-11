@@ -39,7 +39,6 @@ function ResultBadge({ result }: { result: string }) {
 
 export default function ResultPage() {
   const [enrollmentNumber, setEnrollmentNumber] = useState("")
-  const [name, setName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState<ResultRow[]>([])
   const [searched, setSearched] = useState(false)
@@ -47,7 +46,7 @@ export default function ResultPage() {
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!enrollmentNumber.trim() || !name.trim()) return
+    if (!enrollmentNumber.trim()) return
 
     setIsLoading(true)
     setErrorMsg("")
@@ -57,7 +56,6 @@ export default function ResultPage() {
     try {
       const url = new URL("/api/results", window.location.origin)
       url.searchParams.append("enrollment_number", enrollmentNumber.trim())
-      url.searchParams.append("name", name.trim())
 
       const res = await fetch(url.toString())
       if (!res.ok) throw new Error("Result not found")
@@ -100,22 +98,6 @@ export default function ResultPage() {
           <form onSubmit={handleSearch} className="max-w-3xl">
             <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-y-5 gap-x-4 items-start">
 
-              {/* Name */}
-              <div className="font-semibold text-gray-700 md:text-right pt-2">
-                Name <span className="text-red-500">*</span>
-              </div>
-              <div>
-                <Input
-                  className="max-w-sm border-gray-300 rounded-sm focus-visible:ring-0 focus-visible:border-gray-400"
-                  placeholder="e.g. Ganesh Vishwambhar Salunke"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Enter full name in the order: FirstName MiddleName Surname
-                </p>
-              </div>
 
               {/* Enrollment Number */}
               <div className="font-semibold text-gray-700 md:text-right pt-2">
@@ -124,7 +106,7 @@ export default function ResultPage() {
               <div>
                 <Input
                   className="max-w-sm border-gray-300 rounded-sm focus-visible:ring-0 focus-visible:border-gray-400"
-                  placeholder="e.g. 0201400F456303"
+                  placeholder="e.g. 2014F45463XXX"
                   value={enrollmentNumber}
                   onChange={(e) => setEnrollmentNumber(e.target.value)}
                   required

@@ -20,11 +20,11 @@ router.get("/", async (req, res) => {
     }
   }
 
-  // Public: require both enrollment_number AND name
-  if (!enrollment_number || !name) {
+  // Public: require enrollment_number
+  if (!enrollment_number) {
     return res
       .status(400)
-      .json({ error: "Both enrollment number and name are required" });
+      .json({ error: "Enrollment number is required" });
   }
 
   try {
@@ -39,17 +39,7 @@ router.get("/", async (req, res) => {
       return res.status(404).json({ error: "Result not found" });
     }
 
-    // 2. Verify Name (case-insensitive and flexible order)
-    const searchTerms = (name as string).trim().toLowerCase().split(/\s+/);
-    const dbName = rows[0].name.toLowerCase();
-
-    // Check if every search term (word) exists somewhere in the database name
-    const nameMatches = searchTerms.every(term => dbName.includes(term));
-
-    if (!nameMatches) {
-      return res.status(404).json({ error: "Name does not match our records" });
-    }
-
+    // 2. Return results (Enrollment number is unique enough for verification)
     return res.json(rows);
   } catch (error) {
     console.error("Error fetching result:", error);
