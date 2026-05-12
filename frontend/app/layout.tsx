@@ -11,11 +11,66 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Finix Education Institute - Best CNC Training, Machining & Programming",
+  metadataBase: new URL("https://finixeducationinstitute.com"),
+  title: {
+    default: "Finix Education Institute - Best CNC & VMC Training in Pune",
+    template: "%s | Finix Education Institute",
+  },
   description:
-    "Finix Education Institute offers professional CNC training with hands-on courses in machining, programming, and CAD/CAM. Certified training to launch your manufacturing career.",
-  keywords: ["Finix Education Institute", "CNC Training", "CNC Programming Course", "Mechanical Engineering Diploma", "CNC Machining", "CAD CAM Training"],
-  generator: "v0.app",
+    "Finix Education Institute offers professional CNC training, VMC operating, and advanced programming courses in Pune. 12+ years of excellence in manufacturing education.",
+  keywords: [
+    "Finix Education Institute",
+    "CNC Training Pune",
+    "CNC Programming Course",
+    "VMC Operating Training",
+    "Mechanical Engineering Diploma",
+    "CNC Machining",
+    "CAD CAM Training",
+    "Sanaswadi CNC Institute",
+    "Best CNC Institute in Pune",
+    "Best CNC institute in Sanaswadi",
+  ],
+  authors: [{ name: "Finix Education Institute" }],
+  creator: "Finix Education Institute",
+  publisher: "Finix Education Institute",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://finixeducationinstitute.com",
+    siteName: "Finix Education Institute",
+    title: "Finix Education Institute - Best CNC & VMC Training in Pune",
+    description: "Professional CNC training, VMC operating, and advanced programming courses with 100% practical training.",
+    images: [
+      {
+        url: "/images/institute main photo.png",
+        width: 1200,
+        height: 630,
+        alt: "Finix Education Institute CNC Training",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Finix Education Institute - CNC & VMC Training",
+    description: "Industry-ready CNC training and programming courses in Pune.",
+    images: ["/images/institute main photo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: [
       {

@@ -1,6 +1,16 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "CNC & VMC Courses | Finix Education Institute Pune",
+  description:
+    "Explore our professional CNC Turning, VMC Milling, CAD/CAM, and Quality Management courses. Hands-on training with real machines and industry-ready curriculum.",
+  alternates: {
+    canonical: "https://finixeducationinstitute.com/courses",
+  },
+}
 
 const courses = [
 

@@ -2,6 +2,16 @@ import Link from "next/link"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Blog | CNC & VMC Insights | Finix Education Institute",
+  description:
+    "Read the latest expert insights, tutorials, and manufacturing industry news from Finix Education Institute's expert instructors.",
+  alternates: {
+    canonical: "https://finixeducationinstitute.com/blog",
+  },
+}
 
 
 export const revalidate = 60; // Refresh the cache every 60 seconds

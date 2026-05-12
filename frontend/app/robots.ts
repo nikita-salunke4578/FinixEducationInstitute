@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/', // We keep your admin panel hidden from Google search
     },
-    sitemap: 'https://your-domain.com/sitemap.xml',
+    sitemap: 'https://finixeducationinstitute.com/sitemap.xml',
   }
 }

@@ -5,6 +5,16 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react"
 import ContactForm from "@/components/ContactForm"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Contact Us | Finix Education Institute Pune - Sanaswadi",
+  description:
+    "Get in touch with Finix Education Institute for CNC training enquiries. Visit our Sanaswadi, Pune center or contact us via phone, email, or WhatsApp.",
+  alternates: {
+    canonical: "https://finixeducationinstitute.com/contact",
+  },
+}
 
 export default function ContactPage() {
   return (

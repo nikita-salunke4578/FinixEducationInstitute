@@ -6,6 +6,16 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Award, Users, Briefcase, Settings, TrendingUp, Youtube, BookOpen } from "lucide-react"
 import QuickEnquiryForm from "@/components/QuickEnquiryForm"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Finix Education Institute | Best CNC & VMC Training in Pune",
+  description:
+    "Join the best CNC & VMC training institute in Sanaswadi, Pune. 12+ years of experience, 100% practical training, and industry-recognized certification.",
+  alternates: {
+    canonical: "https://finixeducationinstitute.com",
+  },
+}
 
 export default function HomePage() {
   return (

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://your-domain.com' // You can update this after you buy your domain
+  const baseUrl = 'https://finixeducationinstitute.com' 
  
   return [
     {

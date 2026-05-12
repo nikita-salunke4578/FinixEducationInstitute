@@ -1,6 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Target, Eye, Award, CheckCircle } from "lucide-react"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "About Us | Finix Education Institute - 12 Years of Excellence",
+  description:
+    "Learn about Finix Education Institute, a government-recognized CNC training center in Sanaswadi, Pune. We provide hands-on training with real CNC & VMC machines.",
+  alternates: {
+    canonical: "https://finixeducationinstitute.com/about",
+  },
+}
 
 export default function AboutPage() {
   return (
