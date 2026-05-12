@@ -27,10 +27,6 @@ const CLASS_GRADES = [
 
 const COURSES = [
   "Diploma in Mechanical Engineering",
-  "Diploma in Civil Engineering",
-  "Diploma in Electrical Engineering",
-  "Diploma in Computer Engineering",
-  "Diploma in Electronics & Telecommunication",
   "Diploma in Automobile Engineering",
   "Certificate in CNC Programming",
 ]
@@ -56,8 +52,8 @@ export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
   const [resultStatus, setResultStatus] = useState("")
   const [classGrade, setClassGrade] = useState("")
 
-  const percentage = 
-    totalMax && totalObt && Number(totalMax) > 0 
+  const percentage =
+    totalMax && totalObt && Number(totalMax) > 0
       ? ((Number(totalObt) / Number(totalMax)) * 100).toFixed(2) + "%"
       : "—"
 
@@ -69,14 +65,14 @@ export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
     // Use state values directly to guarantee no FormData issues
     const data = {
       enrollment_number: enrollmentNumber.trim(),
-      name:              name.trim(),
-      course:            course.trim(),
-      year:              year.trim(),
-      semester:          semester,
-      total_max_marks:   Number(totalMax),
-      total_obtained:    Number(totalObt),
-      result:            resultStatus,
-      class_grade:       classGrade === "none" ? "" : classGrade,
+      name: name.trim(),
+      course: course.trim(),
+      year: year.trim(),
+      semester: semester,
+      total_max_marks: Number(totalMax),
+      total_obtained: Number(totalObt),
+      result: resultStatus,
+      class_grade: classGrade === "none" ? "" : classGrade,
     }
 
     if (!data.enrollment_number || !data.name || !data.course || !data.year || !data.semester || !data.result) {
@@ -95,7 +91,7 @@ export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
 
       if (res.ok) {
         setMessage("✓ Result saved successfully!")
-        
+
         // Reset form
         setEnrollmentNumber("")
         setName("")
@@ -106,7 +102,7 @@ export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
         setTotalObt("")
         setResultStatus("")
         setClassGrade("")
-        
+
         onSuccess?.()
       } else {
         setMessage(`Error: ${resultData.error}`)
@@ -130,20 +126,20 @@ export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Enrollment Number <span className="text-red-500">*</span></Label>
-              <Input 
-                value={enrollmentNumber} 
-                onChange={(e) => setEnrollmentNumber(e.target.value)} 
-                required 
-                placeholder="e.g. 0201400F456303" 
+              <Input
+                value={enrollmentNumber}
+                onChange={(e) => setEnrollmentNumber(e.target.value)}
+                required
+                placeholder="e.g. 2014F45463XXX"
               />
             </div>
             <div className="space-y-2">
               <Label>Student Name <span className="text-red-500">*</span></Label>
-              <Input 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
-                required 
-                placeholder="Surname FirstName MiddleName" 
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="Surname FirstName MiddleName"
               />
             </div>
           </div>
@@ -165,11 +161,11 @@ export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Examination Year <span className="text-red-500">*</span></Label>
-              <Input 
-                value={year} 
-                onChange={(e) => setYear(e.target.value)} 
-                required 
-                placeholder="e.g. 2021-22" 
+              <Input
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                required
+                placeholder="e.g. 2021-22"
               />
             </div>
             <div className="space-y-2">
@@ -190,22 +186,22 @@ export function ResultForm({ onSuccess }: { onSuccess?: () => void }) {
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label>Total Max Marks <span className="text-red-500">*</span></Label>
-              <Input 
-                type="number" 
-                required 
-                placeholder="e.g. 650" 
-                min={0} 
+              <Input
+                type="number"
+                required
+                placeholder="e.g. 650"
+                min={0}
                 value={totalMax}
                 onChange={(e) => setTotalMax(e.target.value)}
               />
             </div>
             <div className="space-y-2">
               <Label>Total Marks Obtained <span className="text-red-500">*</span></Label>
-              <Input 
-                type="number" 
-                required 
-                placeholder="e.g. 365" 
-                min={0} 
+              <Input
+                type="number"
+                required
+                placeholder="e.g. 365"
+                min={0}
                 value={totalObt}
                 onChange={(e) => setTotalObt(e.target.value)}
               />
