@@ -13,16 +13,17 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   metadataBase: new URL("https://finixeducationinstitute.com"),
   title: {
-    default: "Finix Education Institute - Best CNC & VMC Training in Pune",
+    default: "Finix Education Institute - Best CNC, VMC & HMC Training in Pune",
     template: "%s | Finix Education Institute",
   },
   description:
-    "Finix Education Institute offers professional CNC training, VMC operating, and advanced programming courses in Pune. 12+ years of excellence in manufacturing education.",
+    "Finix Education Institute offers professional CNC, VMC, HMC training, CAD/CAM, and Mechanical Engineering Diploma in Sanaswadi, Pune.",
   keywords: [
     "Finix Education Institute",
     "CNC Training Pune",
     "CNC Programming Course",
     "VMC Operating Training",
+    "HMC Operating Training",
     "Mechanical Engineering Diploma",
     "CNC Machining",
     "CAD CAM Training",

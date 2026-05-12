@@ -4,43 +4,49 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "CNC & VMC Courses | Finix Education Institute Pune",
+  title: "CNC, VMC & HMC Courses | Finix Education Institute Pune",
   description:
-    "Explore our professional CNC Turning, VMC Milling, CAD/CAM, and Quality Management courses. Hands-on training with real machines and industry-ready curriculum.",
+    "Professional training in CNC, VMC, HMC, CAD/CAM, and Mechanical Engineering Diploma. Hands-on training with real machines in Sanaswadi, Pune.",
   alternates: {
     canonical: "https://finixeducationinstitute.com/courses",
   },
 }
 
 const courses = [
-
+  {
+    id: "cnc-training",
+    title: "CNC Operating & Programming",
+    description:
+      "Complete training in CNC Turning (VTL/HTL) operations, G-code/M-code programming, and machine setup.",
+  },
+  {
+    id: "vmc-training",
+    title: "VMC Operating & Programming",
+    description:
+      "Hands-on training in Vertical Machining Center (VMC) operations, 3-axis programming, and tool offset settings.",
+  },
+  {
+    id: "hmc-training",
+    title: "HMC Operating & Programming",
+    description:
+      "Advanced training in Horizontal Machining Center (HMC) operations, 4th axis programming, and pallet changing systems.",
+  },
   {
     id: "cadcam-training",
     title: "CAD/CAM Training",
     description:
-      "Master AutoCAD 2D/3D, UNIGRAPHICS, and MASTERCAM with complete part modeling, assembly, and toolpath generation.",
-
+      "Master AutoCAD 2D/3D, UNIGRAPHICS (NX), and MASTERCAM for part modeling and automated toolpath generation.",
   },
   {
-    id: "quality-management",
-    title: "Advanced Quality Management System",
+    id: "mechanical-diploma",
+    title: "Mechanical Engineering Diploma",
     description:
-      "Complete quality management training covering ISO 9001, Six Sigma, SPC, PPAP, FMEA, MSA, audits, and quality tools.",
-
+      "A comprehensive diploma program covering technical drawing, machining theory, and practical industrial skills.",
   },
-
   {
     id: "industrial-automation",
     title: "Industrial Automation",
-    description: "Training in PLC programming, robotics, and modern automation systems for manufacturing environments.",
-
-  },
-  {
-    id: "cnc-maintenance",
-    title: "CNC Maintenance",
-    description:
-      "Learn all types of maintenance work, parameter setting, troubleshooting, and machine calibration procedures.",
-
+    description: "Training in PLC programming, robotics, and modern automation systems for manufacturing.",
   },
 ]
 

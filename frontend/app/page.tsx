@@ -195,33 +195,40 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {[
               {
-                id: "cnc-turning-milling",
-                title: "CNC Turning & Milling",
+                id: "cnc-training",
+                title: "CNC Operating & Programming",
                 description:
-                  "Complete training in VTL/HTL and VMC/HMC operations from operator to advanced programming",
+                  "Complete training in CNC Turning (VTL/HTL) operations, G-code/M-code programming, and machine setup.",
+              },
+              {
+                id: "vmc-training",
+                title: "VMC Operating & Programming",
+                description:
+                  "Hands-on training in Vertical Machining Center (VMC) operations and 3-axis programming.",
+              },
+              {
+                id: "hmc-training",
+                title: "HMC Operating & Programming",
+                description:
+                  "Advanced training in Horizontal Machining Center (HMC) operations and pallet changing systems.",
               },
               {
                 id: "cadcam-training",
                 title: "CAD/CAM Training",
-                description: "Master AutoCAD, UNIGRAPHICS, and MASTERCAM with 2D/3D modeling and toolpath generation",
+                description: "Master AutoCAD 2D/3D, UNIGRAPHICS, and MASTERCAM for automated toolpath generation.",
               },
               {
-                id: "quality-management",
-                title: "Advanced Quality Management",
-                description: "Learn ISO 9001, Six Sigma, SPC, PPAP, FMEA, and quality auditing procedures",
+                id: "mechanical-diploma",
+                title: "Mechanical Engineering Diploma",
+                description: "Comprehensive diploma program covering technical drawing and practical industrial skills.",
               },
               {
                 id: "industrial-automation",
                 title: "Industrial Automation",
-                description: "Training in PLC, robotics, and modern manufacturing automation systems",
+                description: "Training in PLC, robotics, and modern manufacturing automation systems.",
               },
-              {
-                id: "cnc-maintenance",
-                title: "CNC Maintenance",
-                description: "All types of maintenance work, parameter setting, and troubleshooting techniques",
-              },
-
-            ].map((course, index) => (
+            ]
+.map((course, index) => (
               <Card key={index} className="flex flex-col group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-primary/10 hover:border-primary/30 overflow-hidden relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader>

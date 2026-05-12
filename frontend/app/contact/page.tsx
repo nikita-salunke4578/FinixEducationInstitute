@@ -148,7 +148,7 @@ export default function ContactPage() {
                       <h3 className="font-semibold mb-1">Quick WhatsApp Support</h3>
                       <p className="text-sm text-accent-foreground/80 mb-3">Get instant answers to your questions</p>
                       <Button size="sm" asChild>
-                        <a href="https://wa.me/9922568308" target="_blank" rel="noopener noreferrer">
+                        <a href="https://wa.me/8668621630" target="_blank" rel="noopener noreferrer">
                           Chat on WhatsApp
                         </a>
                       </Button>
