@@ -34,11 +34,12 @@ export default function HomePage() {
                 </span>
                 12+ Years of Excellence in CNC & VMC Training
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold mb-6 text-balance leading-tight">
-                Build Your Career in CNC & Advanced Manufacturing
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-balance leading-tight tracking-tight">
+                Finix Education Institute <br />
+                <span className="text-accent">Best CNC & VMC Training</span> in Pune
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-primary-foreground/90 leading-relaxed">
-                Get industry-ready with hands-on training in CNC Operating, Programming, and CAD/CAM. Learn real-world machining skills, work on advanced equipment, and prepare for high-demand manufacturing jobs with expert guidance at Finix Education Institute.
+              <p className="text-lg md:text-xl mb-8 text-primary-foreground/90 leading-relaxed font-medium">
+                Get industry-focused practical training in CNC, VMC, HMC Operating & Programming, and CAD/CAM at Finix Education Institute, Pune. Learn real-world machining skills through hands-on practice on advanced equipment, along with dedicated placement support to help you build a successful career.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
@@ -228,17 +229,17 @@ export default function HomePage() {
                 description: "Training in PLC, robotics, and modern manufacturing automation systems.",
               },
             ]
-.map((course, index) => (
-              <Card key={index} className="flex flex-col group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-primary/10 hover:border-primary/30 overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300 relative z-10">{course.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-1 relative z-10">
-                  <p className="text-muted-foreground leading-relaxed">{course.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+              .map((course, index) => (
+                <Card key={index} className="flex flex-col group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-primary/10 hover:border-primary/30 overflow-hidden relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <CardHeader>
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300 relative z-10">{course.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-1 relative z-10">
+                    <p className="text-muted-foreground leading-relaxed">{course.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
 
           <div className="text-center">
