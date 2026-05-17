@@ -34,13 +34,11 @@ export default function HomePage() {
                 </span>
                 12+ Years of Excellence in CNC & VMC Training
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-balance leading-tight tracking-tight">
-                Finix Education Institute <br />
-                <span className="text-accent">Best CNC & VMC Training</span> in Pune
+              <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold mb-6 text-balance leading-tight">
+                Build Your Career in CNC & Advanced Manufacturing
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-primary-foreground/90 leading-relaxed font-medium">
-                Get industry-focused practical training in CNC, VMC, HMC Operating & Programming, and CAD/CAM at Finix Education Institute, Pune. Learn real-world machining skills through hands-on practice on advanced equipment, along with dedicated placement support to help you build a successful career.
-              </p>
+              <p className="text-lg md:text-xl mb-8 text-primary-foreground/90 leading-relaxed">
+                Get industry-focused practical training in CNC, VMC, HMC Operating & Programming, and CAD/CAM at Finix Education Institute, Pune. Learn real-world machining skills through hands-on practice on advanced equipment, along with dedicated placement support to help you build a successful career.    </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   size="lg"
